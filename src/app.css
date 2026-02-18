@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  background-color: #f9fafb;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+input:disabled,
+select:disabled {
+  background-color: #f3f4f6;
+  cursor: not-allowed;
+}

@@ -1,0 +1,27 @@
+node_modules
+dist
+.env
+.DS_Store
+*.log
+.vscode
+.vscode/extensions
+*.code-workspace
+*.swp
+*.swo
+*~
+.tmp
+
+# Playwright テスト結果
+test-results/
+.playwright/
+
+# Vite キャッシュ
+.vite/
+vite.config.js.timestamp-*
+
+# IDE
+.idea/
+*.iml
+
+# OS
+Thumbs.db
