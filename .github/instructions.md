@@ -1,55 +1,68 @@
-# Project Instructions
+# プロジェクト運用ガイド
 
-This file provides repository-specific guidance for contributors.
+このファイルは、本リポジトリで作業するコントリビューター向けのプロジェクト固有ルールをまとめたものです。
 
-## Quick Links
+## クイックリンク
 
-- Project overview: README.md
-- Quick start: QUICK_START.md
-- Technical docs index: docs/README.md
+- プロジェクト概要: README.md
+- クイックスタート: QUICK_START.md
+- 技術ドキュメント索引: docs/README.md
+- 推奨 Skills 構成: .github/skills.md
+- Copilot ルート指示: .github/copilot-instructions.md
+- 追加 instruction: .github/instructions/
+- 再利用 prompt: .github/prompts/
+- カスタム chatmode: .github/chatmodes/
+- カスタム agent: .github/agents/
+- プロジェクト skill: .github/skills/
 
-## Development Basics
+## 開発の基本
 
-- Install dependencies: npm install
-- Start dev server: npm run dev
-- Build: npm run build
+- 依存関係のインストール: npm install
+- 開発サーバー起動: npm run dev
+- ビルド: npm run build
 
-## Notes
+## 参照ドキュメント
 
-- WebFOCUS REST API docs are in docs/01_REST_API_GUIDE.md.
-- IBFS path guidance is in docs/02_IBFS_GUIDE.md.
-- describeFex parameter handling is in docs/03_DESCRIBE_FEX_GUIDE.md.
-- Best practices and Svelte patterns are in docs/04_BEST_PRACTICES.md and docs/05_SVELTE_PATTERNS.md.
-- Troubleshooting is in docs/06_TROUBLESHOOTING.md.
+- WebFOCUS REST API: docs/01_REST_API_GUIDE.md
+- IBFS パスの扱い: docs/02_IBFS_GUIDE.md
+- describeFex パラメータ処理: docs/03_DESCRIBE_FEX_GUIDE.md
+- ベストプラクティス / Svelte パターン: docs/04_BEST_PRACTICES.md, docs/05_SVELTE_PATTERNS.md
+- トラブルシューティング: docs/06_TROUBLESHOOTING.md
 
-## Investigation Tips
+## 調査・検証のヒント
 
-- REST API test page flow:
-	1) Sign in: http://localhost/ibi_apps/rs?IBIRS_action=signOn&IBIRS_userName=admin&IBIRS_password=admin&IBIRS_service=ibfs
-	2) Open test page: http://localhost/ibi_apps/rs?IBIRS_action=TEST
-- If the user requests it, GitHub Copilot can launch Chrome via MCP tools and verify actual responses in the browser.
+- REST API テストページの確認手順:
+	1) サインイン: http://localhost/ibi_apps/rs?IBIRS_action=signOn&IBIRS_userName=admin&IBIRS_password=admin&IBIRS_service=ibfs
+	2) テストページを開く: http://localhost/ibi_apps/rs?IBIRS_action=TEST
+- ユーザーの依頼がある場合、GitHub Copilot は MCP ツール経由で Chrome を起動し、ブラウザ上の実レスポンスを確認できます。
 
-## Deployment Access
+## context7 / awesome-copilot 利用方針
 
-- After build and deploy to c:\ibi\apps\svelte, access the app at:
+- `context7` は、仕様確認・既存実装の理解・関連ファイル探索など、作業前のコンテキスト収集に活用します。
+- `awesome-copilot` は、再利用可能な指示・エージェント・プロンプトを検索 / 読み込みし、実装方針や手順の標準化に活用します。
+- まず `context7` で現状把握し、必要に応じて `awesome-copilot` の知見を取り込んでから実装に進むことを推奨します。
+
+## デプロイ後のアクセス
+
+- ビルドして c:\ibi\apps\svelte に配置した後、以下でアプリにアクセスします:
 	http://localhost/approot/svelte/index.htm
-- This access path avoids WebFOCUS CORS restrictions and is required when POST is needed.
+- このアクセス経路は WebFOCUS の CORS 制約を回避でき、POST が必要な処理で必須です。
 
-## HTTP Method Policy
+## HTTP メソッド方針
 
-- Use GET when the action supports GET.
-- signOn is normally POST, but this project uses GET.
-- Per-action GET/POST is managed in src/api/webfocus.js via the ACTION_METHODS JSON map.
+- アクションが GET をサポートしている場合は GET を優先します。
+- signOn は通常 POST ですが、このプロジェクトでは GET を使用します。
+- アクションごとの GET / POST は src/api/webfocus.js の ACTION_METHODS（JSON マップ）で管理します。
 
-## WebFOCUS Security Notes
+## WebFOCUS セキュリティ設定メモ
 
-- Security tab (Admin Console) controls cross-origin behavior per zone.
+- Admin Console の Security タブで、ゾーンごとのクロスオリジン挙動を制御します。
 - Cross-Origin Settings:
-	- Allow Embedding (iframe)
-	- Allow Cross-Origin Resources Sharing (CORS)
-	- Allowed Origins whitelist (scheme/host/port required)
+	- Allow Embedding（iframe）
+	- Allow Cross-Origin Resources Sharing（CORS）
+	- Allowed Origins ホワイトリスト（scheme/host/port が必要）
 - Authentication Options:
-	- Allowed Host Names whitelist for Host header validation
-- Each Security Zone has its own configuration (Default/Mobile/Portlet/Alternate).
+	- Host ヘッダー検証用の Allowed Host Names ホワイトリスト
+- Security Zone（Default / Mobile / Portlet / Alternate）ごとに個別設定です。
 
-Reference: http://localhost/ibi_apps/ibi_help/Default.htm#securityAdmin/admin_console23.htm#Understa5
+参照: http://localhost/ibi_apps/ibi_help/Default.htm#securityAdmin/admin_console23.htm#Understa5
