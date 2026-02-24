@@ -65,6 +65,45 @@ function buildRequest(action, extraParams, options = {}) {
   };
 }
 
+function buildActionUrl(action, extraParams = {}) {
+  const request = buildRequest(action, extraParams);
+  return request.url;
+}
+
+export function buildRunUrl(path, parameterValues = {}) {
+  return buildActionUrl('run', {
+    IBIRS_path: path,
+    ...parameterValues
+  });
+}
+
+export function buildDescribeFexUrl(path) {
+  return buildActionUrl('describeFex', {
+    IBIRS_path: path
+  });
+}
+
+export function buildPropertiesUrl(path) {
+  return buildActionUrl('properties', {
+    IBIRS_path: path
+  });
+}
+
+export function buildGetContentUrl(path) {
+  return buildActionUrl('getContent', {
+    IBIRS_path: path
+  });
+}
+
+export function buildGetDetailsUrl(path, randomValue = Date.now()) {
+  return buildActionUrl('getDetails', {
+    IBIRS_path: path,
+    IBIRS_args: '__null',
+    IBIRS_random: randomValue,
+    IBIRS_service: 'describe'
+  });
+}
+
 /**
  * XMLレスポンスを解析してPOJOに変換
  */

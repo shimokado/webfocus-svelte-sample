@@ -1,7 +1,7 @@
 # WebFOCUS Svelte Sample
 
 WebFOCUS REST API を使用してレポート一覧を取得し、Svelteで構築したモダンなWebアプリケーションです。
-ログイン後、カード型で表示されたレポートを実行でき、通常実行とパラメータ付きのカスタム実行の2種類の実行方法をサポートしています。
+ログイン後、カード型で表示されたレポートを実行でき、通常実行と詳細確認の2種類の実行方法をサポートしています。
 
 ## 機能
 
@@ -19,20 +19,21 @@ WebFOCUS REST API を使用してレポート一覧を取得し、Svelteで構�
 ### 3. レポート実行
 
 #### 通常実行（▶ 実行ボタン）
-レポートをパラメータなしで直接実行します。
+レポートをパラメータなしで直接実行し、結果を別タブで表示します。
 - `IBIRS_action=run` API を使用
 
-#### カスタム実行（⚙ 詳細ボタン）
-レポートの定義情報を取得し、パラメータを指定して実行します。
+#### 詳細確認（⚙ 詳細ボタン）
+レポートの定義情報を取得し、別タブで表示します。
 - `IBIRS_action=describeFex` でレポートの定義を取得
-- `type="unresolved"` のパラメータを抽出
-- 選択肢がある場合は SELECT、ない場合は TEXT フィールドを表示
-- パラメータ付きで `IBIRS_action=run` を実行
+- REST API レスポンス（XML）を別タブで確認可能
 
 ### 4. 実行結果表示
-- HTML形式: リアルタイムで表示
-- PDF形式: ダウンロードボタンを提供
-- テキスト形式: `<pre>` タグで表示
+- 実行結果はアプリ内ダイアログではなく、ブラウザの別タブで表示
+- `▶ 実行`: `run` の結果を別タブ表示
+- `⚙ 詳細`: `describeFex` の結果を別タブ表示
+- `📄 properties`: `properties` を別タブ表示（カード固有の `IBIRS_path`）
+- `📦 getContent`: `getContent` を別タブ表示（カード固有の `IBIRS_path`）
+- `🔍 getDetails`: `getDetails` を別タブ表示（`IBIRS_service=describe`）
 
 ## 技術スタック
 
@@ -66,8 +67,8 @@ webfocus-svelte-sample/
         ├── Header.svelte        # ヘッダー＋ログインフォーム
         ├── ReportBrowser.svelte # レポート一覧＋ナビゲーション
         ├── ReportCard.svelte    # レポートカード（実行ボタン）
-        ├── ParameterModal.svelte # パラメータ入力モーダル
-        └── ResultModal.svelte    # 実行結果表示モーダル
+        ├── ParameterModal.svelte # （互換維持用）未使用
+        └── ResultModal.svelte    # （互換維持用）未使用
 ```
 
 ## セットアップと実行
@@ -213,10 +214,21 @@ Response: XML形式で <amperMap><entry type="unresolved"> にパラメータ定
 ### レポート実行（run）
 
 ```javascript
-// src/api/webfocus.js の runReport() または runReportWithParams() 関数
+// src/api/webfocus.js の buildRunUrl() 関数
 GET /ibi_apps/rs?IBIRS_action=run&IBIRS_path=<path>&<parameters>
 
 Response: HTML, PDF, またはテキスト形式
+```
+
+### URL 生成ヘルパー
+
+```javascript
+// src/api/webfocus.js
+buildRunUrl(path, parameterValues)       // run のURLを生成
+buildDescribeFexUrl(path)                // describeFex のURLを生成
+buildPropertiesUrl(path)                 // properties のURLを生成
+buildGetContentUrl(path)                 // getContent のURLを生成
+buildGetDetailsUrl(path, randomValue)    // getDetails のURLを生成
 ```
 
 ## 分業体制とベストプラクティス

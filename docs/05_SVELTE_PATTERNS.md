@@ -268,8 +268,8 @@ function formatTimestamp(timestamp) {
 | ログインフォーム | Header.svelte | ユーザー認証 UI |
 | ユーザー一覧表示 | UserBrowser.svelte | ユーザー一覧表示 |
 | レポート一覧表示 | ReportBrowser.svelte | レポート一覧・フォルダ操作 |
-| レポート詳細実行 | ParameterModal.svelte | パラメータ入力 |
-| 実行結果表示 | ResultModal.svelte | 実行結果表示 |
+| レポート実行（別タブ） | ReportCard.svelte | run URL を新規タブで開く |
+| レポート詳細（別タブ） | ReportCard.svelte | describeFex URL を新規タブで開く |
 
 ### Header コンポーネント
 

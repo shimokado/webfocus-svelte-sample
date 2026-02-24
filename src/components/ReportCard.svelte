@@ -1,79 +1,52 @@
 <script>
-  import { executionResult } from '../stores/index.js';
-  import { runReport, describeFex, runReportWithParams } from '../api/webfocus.js';
-  import ParameterModal from './ParameterModal.svelte';
+  import {
+    buildRunUrl,
+    buildDescribeFexUrl,
+    buildPropertiesUrl,
+    buildGetContentUrl,
+    buildGetDetailsUrl
+  } from '../api/webfocus.js';
 
   export let item;
 
-  let showParameterModal = false;
   let loading = false;
-  let reportParams = [];
 
-  async function handleNormalRun() {
+  function openInNewTab(url) {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }
+
+  function handleNormalRun() {
     loading = true;
-    const result = await runReport(item.path);
-    
-    if (result.success) {
-      $executionResult = {
-        open: true,
-        result: result.result,
-        contentType: result.contentType,
-        error: null
-      };
-    } else {
-      $executionResult = {
-        open: true,
-        result: null,
-        contentType: null,
-        error: result.error
-      };
-    }
-    
+    const runUrl = buildRunUrl(item.path);
+    openInNewTab(runUrl);
     loading = false;
   }
 
-  async function handleCustomRun() {
+  function handleCustomRun() {
     loading = true;
-    const result = await describeFex(item.path);
-    
-    if (result.success) {
-      reportParams = result.params;
-      showParameterModal = true;
-    } else {
-      $executionResult = {
-        open: true,
-        result: null,
-        contentType: null,
-        error: result.error
-      };
-    }
-    
+    const describeUrl = buildDescribeFexUrl(item.path);
+    openInNewTab(describeUrl);
     loading = false;
   }
 
-  async function handleParameterSubmit(event) {
-    const parameterValues = event.detail;
+  function handleProperties() {
     loading = true;
-    
-    const result = await runReportWithParams(item.path, parameterValues);
-    
-    if (result.success) {
-      $executionResult = {
-        open: true,
-        result: result.result,
-        contentType: result.contentType,
-        error: null
-      };
-    } else {
-      $executionResult = {
-        open: true,
-        result: null,
-        contentType: null,
-        error: result.error
-      };
-    }
-    
-    showParameterModal = false;
+    const propertiesUrl = buildPropertiesUrl(item.path);
+    openInNewTab(propertiesUrl);
+    loading = false;
+  }
+
+  function handleGetContent() {
+    loading = true;
+    const getContentUrl = buildGetContentUrl(item.path);
+    openInNewTab(getContentUrl);
+    loading = false;
+  }
+
+  function handleGetDetails() {
+    loading = true;
+    const getDetailsUrl = buildGetDetailsUrl(item.path);
+    openInNewTab(getDetailsUrl);
     loading = false;
   }
 </script>
@@ -88,7 +61,7 @@
     </div>
 
     <!-- ボタン -->
-    <div class="flex gap-2">
+    <div class="grid grid-cols-2 gap-2">
       <button
         on:click={handleNormalRun}
         disabled={loading}
@@ -103,18 +76,30 @@
       >
         {loading ? '...' : '⚙ 詳細'}
       </button>
+      <button
+        on:click={handleProperties}
+        disabled={loading}
+        class="flex-1 px-3 py-2 bg-indigo-500 hover:bg-indigo-600 text-white text-sm font-semibold rounded transition disabled:opacity-50"
+      >
+        {loading ? '...' : '📄 properties'}
+      </button>
+      <button
+        on:click={handleGetContent}
+        disabled={loading}
+        class="flex-1 px-3 py-2 bg-teal-500 hover:bg-teal-600 text-white text-sm font-semibold rounded transition disabled:opacity-50"
+      >
+        {loading ? '...' : '📦 getContent'}
+      </button>
+      <button
+        on:click={handleGetDetails}
+        disabled={loading}
+        class="col-span-2 px-3 py-2 bg-purple-500 hover:bg-purple-600 text-white text-sm font-semibold rounded transition disabled:opacity-50"
+      >
+        {loading ? '...' : '🔍 getDetails'}
+      </button>
     </div>
   </div>
 </div>
-
-{#if showParameterModal}
-  <ParameterModal
-    params={reportParams}
-    reportName={item.name}
-    onSubmit={handleParameterSubmit}
-    onClose={() => showParameterModal = false}
-  />
-{/if}
 
 <style>
 </style>

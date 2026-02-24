@@ -25,3 +25,5 @@ applyTo: '**/*.svelte, **/*.js, **/*.md, docs/**/*.md'
 
 - 実装後に `context7` で関連箇所を再確認し、副作用がないかを確認する。
 - 必要に応じて `awesome-copilot` で `markdown.instructions.md` や `update-docs-on-code-change.instructions.md` を読み込み、ドキュメント反映を行う。
+- `npm run deploy` 実行後に `http://localhost/approot/svelte/index.htm` で動作確認する。
+- 動作確認ツールは MCP Chrome + DevTools を第一選択とし、回帰自動確認では MCP Playwright も利用可能とする。

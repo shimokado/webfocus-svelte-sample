@@ -47,6 +47,15 @@
 - ビルドして c:\ibi\apps\svelte に配置した後、以下でアプリにアクセスします:
 	http://localhost/approot/svelte/index.htm
 - このアクセス経路は WebFOCUS の CORS 制約を回避でき、POST が必要な処理で必須です。
+- 作業完了時は、可能な限り `npm run deploy` 後に上記 URL で動作確認します。
+
+## 動作確認ポリシー（エージェント）
+
+- 優先: MCP Chrome + DevTools を使い、実画面操作と REST API レスポンス（Network/Console）を確認する。
+- 代替: E2E や再現性の高い回帰確認では MCP Playwright の利用を許可する。
+- 自動判断の基準:
+	- レスポンス実体の目視確認 / DevTools解析が必要 → MCP Chrome + DevTools
+	- 複数シナリオの繰り返し確認 / 自動化重視 → MCP Playwright
 
 ## HTTP メソッド方針
 

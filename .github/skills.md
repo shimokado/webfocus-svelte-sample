@@ -53,7 +53,19 @@
 2. awesome-copilot で最適な instruction / agent を探索して取り込む
 3. 実装・修正
 4. テスト実行（必要に応じて E2E）
-5. ドキュメント更新（README / docs / .github/instructions.md）
+5. `npm run deploy` 実行後、`http://localhost/approot/svelte/index.htm` で動作確認
+6. ドキュメント更新（README / docs / .github/instructions.md）
+
+## 3.1) 動作確認ツールの選択基準
+
+- 推奨（既定）: MCP Chrome + DevTools
+  - REST API レスポンスの実体確認
+  - Console エラーと Network の追跡
+  - UI 操作と通信結果を同時に検証
+- 利用可能（補助）: MCP Playwright
+  - 回帰確認の自動化
+  - 複数手順の繰り返し検証
+  - テストシナリオ化が必要なケース
 
 ## 4) このプロジェクト向け最小セット
 

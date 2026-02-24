@@ -21,7 +21,18 @@ WebFOCUS Svelte サンプルを安全に改修するための実務手順。
 2. `awesome-copilot` で instruction を検索し、必要なものを読み込む。
 3. `src/api/webfocus.js` の変更有無を先に確定する。
 4. 必要な UI/Store 変更のみ最小差分で実装する。
-5. `README.md` と `docs/` の差分を更新する。
+5. `npm run deploy` 実行後に `http://localhost/approot/svelte/index.htm` で動作確認する。
+6. `README.md` と `docs/` の差分を更新する。
+
+## Verification Tool Selection
+
+- 第一選択: MCP Chrome + DevTools
+	- 実レスポンス解析（Network）
+	- JavaScript エラー確認（Console）
+	- 画面操作と通信結果の突合
+- 第二選択: MCP Playwright
+	- 回帰テストの反復確認
+	- 複数シナリオの自動化
 
 ## References
 

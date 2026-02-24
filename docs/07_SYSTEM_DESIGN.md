@@ -54,7 +54,6 @@ const ACTION_METHODS = {
 - `auth`: ログイン状態と CSRF トークン
 - `currentPath`: 現在の IBFS パス
 - `contents`: フォルダ/レポート一覧
-- `executionResult`: 実行結果
 
 ### 3.3 UI コンポーネント
 
@@ -62,9 +61,7 @@ const ACTION_METHODS = {
 
 - `Header.svelte`: ログイン/ログアウト
 - `ReportBrowser.svelte`: フォルダ移動と一覧
-- `ReportCard.svelte`: レポート実行ボタン
-- `ParameterModal.svelte`: パラメータ入力
-- `ResultModal.svelte`: 実行結果表示
+- `ReportCard.svelte`: レポート実行 / 詳細を別タブで表示
 
 ## 4. データフロー
 
@@ -82,8 +79,8 @@ const ACTION_METHODS = {
 
 ### 4.3 レポート実行
 
-- 通常実行: `runReport()`
-- カスタム実行: `describeFex()` → `runReportWithParams()`
+- 通常実行: `buildRunUrl()` で URL を生成し、別タブで表示
+- 詳細確認: `buildDescribeFexUrl()` で URL を生成し、別タブで表示
 
 ## 5. XML 解析の要点
 
